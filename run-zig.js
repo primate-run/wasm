@@ -27,9 +27,12 @@ const decode = (pointer, length) => {
 
 await WebAssembly.instantiate(typedArray, {
   env: {
-    respond_string: (pointer, length) => {
+    respond_string(pointer, length) {
       response = decode(pointer, length);
-    }
+    },
+    view(pointer, length) {
+
+    },
   }}).then(result => {
   memory = result.instance.exports.memory;
   const get = result.instance.exports.get;
