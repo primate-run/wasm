@@ -1,0 +1,11 @@
+{
+  "name": "primate-ffi",
+  "private": true,
+  "dependencies": {
+    "rcompat": "^0.1.1"
+  },
+  "scripts": {
+    "start": "node run.js"
+  },
+  "type": "module"
+}
