@@ -6,7 +6,7 @@ Go();
 
 const cwd = await new Path(import.meta.url);
 const { directory } = cwd;
-const file = await directory.join("index.wasm").arrayBuffer();
+const file = await directory.join("routes", "route.wasm").arrayBuffer();
 const typedArray = new Uint8Array(file);
 
 const go = new globalThis.Go();
