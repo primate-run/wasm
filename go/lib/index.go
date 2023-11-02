@@ -1,16 +1,26 @@
 package primate
 
 import "syscall/js"
+
+type t_request func(Request) interface{} 
+type t_response func(js.Value, []js.Value) interface{}
+
+func make_url(url js.Value) URL {
+  return URL{
+    url.Get("host").String(),
+    url.Get("href").String(),
+  };
+}
  
-func MakeRequest(fn func(Request) interface{}) func (js.Value, [] js.Value) interface{} {
-    return func(this js.Value, args[] js.Value) interface{} {
-      _url := args[0].Get("url")
-      _href := _url.Get("href").String();
-      req := Request{
-        Url: URL{"host", _href},
-      }
-      return fn(req)
+func MakeRequest(route t_request) t_response {
+  return func(this js.Value, args[] js.Value) interface{} {
+    js_request := args[0];
+    go_request := Request{
+      make_url(js_request.Get("url")),
     }
+
+    return route(go_request)
+  }
 }
 
 type URL struct {
@@ -21,9 +31,3 @@ type URL struct {
 type Request struct {
   Url URL
 }
-
-/*func main() {
-  c := make(chan bool)
-  js.Global().Set("Get", js.FuncOf(Get))
-  <-c
-}*/
