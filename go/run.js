@@ -16,9 +16,17 @@ await WebAssembly.instantiate(typedArray, {
     go.run(result.instance);
   serve(request => {
     const get = globalThis.Get;
+    const sp = JSON.stringify(Object
+      .fromEntries(new URL(request.url).searchParams.entries()));
     const response = get({
       url: new URL(request.url),
+      search_params: sp,
+      view: (component = "component", props) => JSON.stringify(({
+        component,
+        props,
+      })),
     });
-    return new Response(response);
+    const $response = typeof response === "object" ? JSON.stringify(response) : response;
+    return new Response($response);
   }, {host: "0.0.0.0", port: 6161});
 });

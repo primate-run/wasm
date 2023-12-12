@@ -3,10 +3,15 @@ package main
 import "syscall/js"
 // }}} end
 
-import "github.com/primatejs/bindings/go/primate";
+import "github.com/primatejs/go/primate";
 
 func Get(request primate.Request) interface{} {
-  return request.Url.Href;
+  //return request.View("1test", map[string]interface{}{
+  //  "test": 1234,
+  //});
+  return map[string]interface{}{
+    "test": 1234,
+  };
 }
 
 // {{{ start primate wrapper, postfix

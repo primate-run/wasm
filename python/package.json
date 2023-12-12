@@ -2,10 +2,9 @@
   "name": "primate-ffi",
   "private": true,
   "dependencies": {
-    "@ruby/3.2-wasm-wasi": "^2.3.0",
-    "@ruby/wasm-wasi": "^2.3.0",
     "pyodide": "^0.24.1",
-    "rcompat": "^0.5.0"
+    "rcompat": "^0.1.1",
+    "ruby-head-wasm-wasi": "^2.1.0"
   },
   "scripts": {
     "zig": "node run-zig.js",

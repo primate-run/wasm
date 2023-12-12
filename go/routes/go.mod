@@ -1,7 +1,5 @@
-module test.com
+module route
 
 go 1.21.3
 
-replace github.com/primatejs/bindings/go/primate => ../lib
-
-require github.com/primatejs/bindings/go/primate v0.0.0-00010101000000-000000000000 // indirect
+require github.com/primatejs/go/primate v0.0.0-20231105213429-e38c2a977313
