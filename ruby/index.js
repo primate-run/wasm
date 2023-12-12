@@ -8,8 +8,14 @@ const { vm } = await DefaultRubyVM(module);
 const t = await vm.eval(`
   ${get}
 `);
+const url = new URL("https://primatejs.com?foo=bar#test");
 const request = {
   url: new URL("https://primatejs.com#test"),
+  query: {
+    get(name) {
+      return url.searchParams.get(name);
+    }
+  },
 };
 
 console.log(t.call("run_post", vm.wrap(request)).toString());
