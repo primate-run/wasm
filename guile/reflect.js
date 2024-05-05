@@ -1,3 +1,5 @@
+import FS from "rcompat/fs";
+
 // -*- js2-basic-offset: 4 -*-
 class Char {
     constructor(codepoint) {
@@ -137,18 +139,10 @@ class Syntax extends HeapObject { toString() { return "#<syntax>"; } }
 class Port extends HeapObject { toString() { return "#<port>"; } }
 class Struct extends HeapObject { toString() { return "#<struct>"; } }
 
-function instantiate_streaming(path, imports) {
-    if (typeof fetch !== 'undefined')
-        return WebAssembly.instantiateStreaming(fetch(path), imports);
-    let bytes;
-    if (typeof read !== 'undefined') {
-        bytes = read(path, 'binary');
-    } else if (typeof readFile !== 'undefined') {
-        bytes = readFile(path);
-    } else {
-        let fs = require('fs');
-        bytes = fs.readFileSync(path);
-    }
+const dir = new FS.File(import.meta.dirname);
+
+const instantiate_streaming = async (path, imports) => {
+    const bytes = await dir.join(path).arrayBuffer();
     return WebAssembly.instantiate(bytes, imports);
 }
 
@@ -169,7 +163,7 @@ class Scheme {
             },
         };
         let { module, instance } =
-            await instantiate_streaming('js-runtime/reflect.wasm', {
+            await instantiate_streaming('./reflect.wasm', {
               abi,
               debug,
               rt: {
@@ -390,7 +384,7 @@ function string_to_wtf8(str) {
 
 async function load_wtf8_helper_module() {
     if (wtf8_helper) return;
-    let { module, instance } = await instantiate_streaming("js-runtime/wtf8.wasm");
+    let { module, instance } = await instantiate_streaming("./wtf8.wasm");
     wtf8_helper = instance;
 }
 
@@ -708,3 +702,5 @@ function repr(obj) {
         return string_repr(obj);
     return obj + '';
 }
+
+export default Scheme;
