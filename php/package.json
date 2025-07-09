@@ -1,0 +1,33 @@
+{
+  "name": "@primate/php",
+  "version": "0.0.0",
+  "description": "Primate PHP backend",
+  "homepage": "https://primate.run/docs/backend/php",
+  "bugs": "https://github.com/primate-run/primate/issues",
+  "license": "MIT",
+  "files": [
+    "/lib/**/*.js",
+    "/lib/**/*.php",
+    "/lib/**/*.d.ts",
+    "!/**/*.spec.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/primate-run/primate",
+    "directory": "packages/php"
+  },
+  "scripts": {
+    "prebuild": "npm run generate-autoload",
+    "build": "npm run clean && tsc && cp -a src/private/*.rb lib/private",
+    "clean": "rm -rf ./lib",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
+    "generate-autoload": "composer dump-autoload"
+  },
+  "dependencies": {
+    "@php-wasm/node": "^1.2.1",
+    "@php-wasm/universal": "^1.2.1",
+    "@rcompat/fs": "^0.13.2"
+  },
+  "type": "module"
+}
